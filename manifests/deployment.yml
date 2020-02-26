@@ -1,0 +1,16 @@
+apiVersion : apps/v1beta1
+kind: Deployment
+metadata:
+  name: lnochilipipelinesjavascriptdocker 
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: lnochilipipelinesjavascriptdocker 
+    spec:
+      containers:
+        - name: lnochilipipelinesjavascriptdocker 
+          image: aksrepo2505.azurecr.io/lnochilipipelinesjavascriptdocker
+          ports:
+          - containerPort: 8080
