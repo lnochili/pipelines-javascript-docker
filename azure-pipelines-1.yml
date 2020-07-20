@@ -1,0 +1,56 @@
+# Docker
+# Build a Docker image 
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- master
+
+# Deploy to Azure Kubernetes Service
+# Build and push image to Azure Container Registry; Deploy to Azure Kubernetes Service
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- master
+
+resources:
+- repo: self
+
+variables:
+
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: 'b3492135-c5b1-4507-ac03-b557caedb39a'
+  imageRepository: 'lnochilipipelinesjavascriptdocker'
+  containerRegistry: 'aksrepo2505.azurecr.io'
+  dockerfilePath: '**/Dockerfile'
+  tag:"test"
+  imagePullSecret: 'aksrepo2505ad6f-auth'
+
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+  
+
+stages:
+- stage: Build
+  displayName: Build stage
+  jobs:  
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: CmdLine@2
+      inputs:
+        script: 
+          tag:`date +%m%d%Y`
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+          
+    - upload: manifests
+      artifact: manifests
