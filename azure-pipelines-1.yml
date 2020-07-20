@@ -18,17 +18,15 @@ resources:
 - repo: self
 
 variables:
-- name : tag
-  value: "test"
+
 # Container registry service connection established during pipeline creation
 
   dockerRegistryServiceConnection: 'b3492135-c5b1-4507-ac03-b557caedb39a'
   imageRepository: 'lnochilipipelinesjavascriptdocker'
   containerRegistry: 'aksrepo2505.azurecr.io'
   dockerfilePath: '**/Dockerfile'
-
   imagePullSecret: 'aksrepo2505ad6f-auth'
-
+  tag: "test"
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
@@ -41,8 +39,9 @@ jobs:
     - task: CmdLine@2
       inputs:
         script: 
-          ${{ variables.tag }}:`date +%m%d%Y`
-          echo ${{ variables.tag}}
+          imagetag=`date +%m%d%Y`
+          TAG=$imagetag
+
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
