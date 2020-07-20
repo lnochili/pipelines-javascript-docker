@@ -3,14 +3,15 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-- master
-
+  paths:
+    include:
+    - pipelines-javascript-docker/azure-pipelines-1.yml
 # Deploy to Azure Kubernetes Service
 # Build and push image to Azure Container Registry; Deploy to Azure Kubernetes Service
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
-trigger:
-- master
+#trigger:
+#- master
 
 resources:
 - repo: self
