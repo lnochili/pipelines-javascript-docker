@@ -15,8 +15,7 @@ variables:
   imageRepository: 'lnochilipipelinesjavascriptdocker'
   containerRegistry: 'aksrepo2505.azurecr.io'
   dockerfilePath: '**/Dockerfile'
-  #tag: '$(Build.BuildId)'
-  tag: `date +%m-%d-%Y`
+  tag: '$(Build.BuildId)'
   imagePullSecret: 'aksrepo2505ad6f-auth'
 
   # Agent VM image name
@@ -32,6 +31,9 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
+    - task: CmdLine@2
+      inputs:
+        script: 'tag=`date +%m-%d-%Y`'
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
