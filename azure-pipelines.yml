@@ -31,12 +31,6 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
-    - task: CmdLine@2
-      inputs:
-        script: 
-          vtag=`date +%m%d%Y`
-          {{ variables.tag}} = $vtag
-          
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
