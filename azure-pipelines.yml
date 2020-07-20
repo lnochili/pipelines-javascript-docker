@@ -15,7 +15,8 @@ variables:
   imageRepository: 'lnochilipipelinesjavascriptdocker'
   containerRegistry: 'aksrepo2505.azurecr.io'
   dockerfilePath: '**/Dockerfile'
-  tag: '$(Build.BuildId)'
+  #tag: '$(Build.BuildId)'
+  tag: $(Date:yyyyMMdd)$(Rev:.r)
   imagePullSecret: 'aksrepo2505ad6f-auth'
 
   # Agent VM image name
