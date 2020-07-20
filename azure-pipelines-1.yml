@@ -27,11 +27,9 @@ variables:
   containerRegistry: 'aksrepo2505.azurecr.io'
   dockerfilePath: '**/Dockerfile'
   imagePullSecret: 'aksrepo2505ad6f-auth'
-  tag: "test"
+  tag: "test"   # initialized value
  # Agent VM image name
   vmImageName: 'ubuntu-latest'
-
-
 
 jobs:  
   - job: Build
@@ -40,18 +38,20 @@ jobs:
       vmImage: $(vmImageName)
     steps:
      
+     ### Set the tag
     - task: Bash@3
       inputs:
         targetType: 'inline'
         script: |
-          imagetag=`date +%m%d%Y`
-          echo "##vso[task.setvariable variable=tag]$imagetag"
+          imagetag=`date +%m%d%Y`  ### get the date value to a variable
+          echo "##vso[task.setvariable variable=tag]$imagetag"   ### Update the tag variable 
+    ### display the tag
     - task: Bash@3
       inputs:
         targetType: 'inline'
         script: |
           echo $TAG
-
+    ###Use the tag value with image
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
