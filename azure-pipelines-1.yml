@@ -40,12 +40,12 @@ jobs:
       vmImage: $(vmImageName)
     steps:
      
-    - task: CmdLine@2
+    - task: Bash@3
       inputs:
-        script: 
+        targetType: 'inline'
+        script: |
           imagetag=`date +%m%d%Y`
-          echo '##vso[task.setvariable variable=onetag]$imagetag'
-          TAG=$onetag
+          echo '##vso[task.setvariable variable=tag]$imagetag'
           echo $TAG
 
     - task: Docker@2
